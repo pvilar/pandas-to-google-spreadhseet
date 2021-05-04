@@ -29,7 +29,7 @@ https://docs.gspread.org/en/latest/oauth2.html#for-bots-using-service-account
 
 4. Copy the `.env_dist` and rename to `.env`. Populate the credentials from the JSON file you downloaded in the step 2.
 
-```python
+```json
 GOOGLE_JSON_CREDENTIALS = '{
   "type": "service_account",
   "project_id": "",
