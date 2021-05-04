@@ -26,3 +26,9 @@ https://docs.gspread.org/en/latest/oauth2.html#for-bots-using-service-account
 3. Enable the following APIs on your Google Project from the GCP Console:
 - Google Drive API
 - Google Sheets API
+
+4. Run the app
+
+```bash
+python3 main.py
+```
