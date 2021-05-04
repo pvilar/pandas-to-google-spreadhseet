@@ -1,0 +1,14 @@
+__pycache__
+.DS_Store
+.vscode
+.ipynb_checkpoints
+.pytest_cache
+
+# Never
+.env
+
+# Data
+*.csv
+
+# Models
+*.pkl
