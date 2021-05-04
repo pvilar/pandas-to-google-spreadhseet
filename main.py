@@ -1,3 +1,4 @@
+import json
 import os
 import time
 
@@ -11,13 +12,11 @@ from oauth2client.service_account import ServiceAccountCredentials
 load_dotenv()
 
 # load google credentials from env vars
-GOOGLE_JSON_CREDENTIALS = os.getenv("GOOGLE_JSON_CREDENTIALS")
+GOOGLE_JSON_CREDENTIALS = json.loads(os.getenv("GOOGLE_JSON_CREDENTIALS"))
 
 # variables
 SPREADSHEET_NAME = 'Bitcoin_prices_last_24h'
-EMAILS_LIST = [
-    'pau.vilar.ribo@gmail.com'
-]
+EMAILS_LIST = ['your_email_address@gmail.com']
 
 
 def generate_google_credentials(google_credentials_dict: dict):
@@ -75,17 +74,27 @@ def main():
     df = yf.download(tickers='BTC-USD', period='24h', interval='30m')
     print("--- %s seconds ---" % (time.time() - start_time))
 
-    print(
-        "Exporting dataframe to a Google Spreadsheet and sending over email.")  # noqa E501
-    google_credentials = generate_google_credentials(GOOGLE_JSON_CREDENTIALS)
-    spreadsheet = export_dataframe_to_google_spreadsheet(
-        dataframe=df,
-        spreadsheet_name=SPREADSHEET_NAME,
-        google_credentials=google_credentials)
+    print("Exporting dataframe to a Google Spreadsheet and sending over",
+          "email.")
+    try:
+        google_credentials = generate_google_credentials(
+            GOOGLE_JSON_CREDENTIALS)
+        spreadsheet = export_dataframe_to_google_spreadsheet(
+            dataframe=df,
+            spreadsheet_name=SPREADSHEET_NAME,
+            google_credentials=google_credentials)
 
-    share_spreadsheet_by_email(spreadsheet=spreadsheet,
-                               emails_list=EMAILS_LIST)
-    print("Process finished.")
+        share_spreadsheet_by_email(spreadsheet=spreadsheet,
+                                   emails_list=EMAILS_LIST)
+        print("Process finished. Check the Spam folder if you don't see the",
+              "email in your Inbox.")
+
+    except gspread.exceptions.APIError:
+        print("An error ocurred. Both the Google Drive API and the Google",
+              "Sheets API need to be enabled on your Google Project")
+
+    except Exception as e:
+        raise e
 
 
 if __name__ == "__main__":
