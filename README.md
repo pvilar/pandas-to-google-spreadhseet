@@ -27,7 +27,9 @@ https://docs.gspread.org/en/latest/oauth2.html#for-bots-using-service-account
 - Google Drive API
 - Google Sheets API
 
-4. Run the app
+4. Copy the `.env_dist` and rename to `.env`. Populate the credentials from the JSON file you downloaded in the step 2.
+
+5. Run the app
 
 ```bash
 python3 main.py
